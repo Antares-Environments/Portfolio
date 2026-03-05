@@ -1,0 +1,76 @@
+:root {
+    /* Base Tones */
+    --page-bg: #FCFBF8; /* Cream / Pale tone */
+    --card-bg: #FFFFFF; /* White for cards */
+    --text-main: #1A1A1A; /* Deep b/w tone for text */
+    --text-light: #FFFFFF; 
+    
+    /* Interactive Accents */
+    --element-peach: #FFDAB9; 
+    --element-orange: #FF9800; 
+    
+    /* Structural Colors */
+    --heading-green: #2E8B57; 
+    --element-green: #4CAF50; 
+    --border-pale: #EAE6DF; 
+}
+
+body {
+    background-color: var(--page-bg);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--heading-green);
+}
+
+a {
+    color: var(--element-green);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--element-orange);
+}
+
+nav {
+    background-color: var(--element-green);
+    padding: 1rem 2rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    color: var(--text-light);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.nav-links a:hover {
+    color: var(--element-peach);
+}
+
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-icon {
+    color: var(--element-orange);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.project-card:hover .project-icon {
+    color: var(--element-peach);
+}

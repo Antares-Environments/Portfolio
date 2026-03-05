@@ -1,0 +1,60 @@
+[Data Science]
+Data Preprocessing
+Data Transformation
+Data Pipelines
+Hyperparameter tuning
+Optimization
+Feature Engineering
+Data
+Supervised Learning 
+Unsupervised Learning
+Relational Databases
+Linear/Logistic Regression
+Gradient Descent
+Decision Trees
+Random Forest
+Gradient Boosting
+Naive Bayes
+Statistical and Probabilistic Modelling
+Financial Modelling
+Stress testing
+Hypotheses testing
+Data Structures
+Algorithms 
+Data Mining
+Synthetic Data
+Schema Definition
+EDA
+Diagnostic Analytics
+Predictive Analytics
+Prescriptive Analytics
+Graph Search Problems
+Activation Functions
+Statistics and Probability
+
+[AI Engineering]
+Agentic Architecture
+Guardrails
+Agent Based Modelling
+RAG Pipelines 
+Multimodal RAG
+Agent Orchestration
+Reinforcement Learning
+Cloud Computing (GCP)
+Meta Learning
+Vector DB and PGSQL
+Augmented Engineering
+Debugging
+Exception Handling
+Automated Workflows
+
+[Languages]
+Python
+SQL
+HTML
+CSS
+JavaScript
+React.js 
+Markdown
+LaTeX
+Git 

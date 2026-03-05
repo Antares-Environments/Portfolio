@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section id="information-block" style="text-align: center; margin-top: 40px; border-bottom: 3px solid var(--element-green); padding-bottom: 20px;">
+    <h1 style="font-size: 2.5rem; margin-bottom: 10px;">Akshansh Hardaha</h1>
+    <h2 style="color: var(--element-green); margin-bottom: 15px;">AI Architect and Data Scientist</h2>
+    <p style="font-size: 1.1rem; color: var(--text-main);">
+        Contact: <a href="mailto:akshanshhardaha16@gmail.com">akshanshhardaha16@gmail.com</a> | 
+        GitHub: <a href="https://github.com/Monarch-of-Florence" target="_blank">Monarch-of-Florence</a>
+    </p>
+</section>
+
+<section id="skillset-navigator" style="display: flex; gap: 40px; align-items: center; margin-top: 60px; justify-content: center; flex-wrap: wrap;">
+    <div id="svg-container">
+        <svg width="300" height="300" viewBox="0 0 300 300">
+            {% for segment in skill_segments %}
+                <path 
+                    id="slice-{{ segment.id }}" 
+                    d="{{ segment.path }}" 
+                    fill="#4CAF50" 
+                    class="skill-donut-slice"
+                    style="cursor: pointer; transition: fill 0.3s ease, transform 0.3s ease; transform-origin: center;"
+                    onmouseover="hoverRingItem('{{ segment.id }}', '{{ segment.label }}', 'skill', '#FF9800')"
+                    onmouseout="resetRingItem('{{ segment.id }}', 'skill')"
+                    onclick="clickRingItem('{{ segment.id }}', '{{ segment.label }}', 'skill', '#FF9800')"
+                >
+                    <title>{{ segment.label }}</title>
+                </path>
+                {% if loop.first %}
+                <text id="skill-center-label" x="150" y="150" text-anchor="middle" dominant-baseline="middle" font-size="18" fill="var(--text-main)" font-weight="bold">
+                    Select Skill
+                </text>
+                {% endif %}
+            {% endfor %}
+        </svg>
+    </div>
+
+    <div id="skill-details-container" style="flex-grow: 1; min-width: 300px; max-width: 500px;">
+        {% for segment in skill_segments %}
+            <div id="content-{{ segment.id }}" class="skill-category" style="display: none; background: var(--card-bg); padding: 25px; border-left: 5px solid var(--element-green); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                <h3 style="color: var(--heading-green); margin-top: 0; border-bottom: 1px solid var(--border-pale); padding-bottom: 10px;">{{ segment.label }}</h3>
+                <ul style="list-style-type: none; padding-left: 0; margin-top: 15px;">
+                    {% for item in segment['items'] %}
+                        <li style="margin-bottom: 10px; font-size: 1.1rem; color: var(--text-main); display: flex; align-items: center;">
+                            <span style="color: var(--element-green); margin-right: 10px;">•</span> {{ item }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="project-dashboard" style="margin-top: 80px;">
+    <h2 style="border-bottom: 2px solid var(--element-green); padding-bottom: 10px; margin-bottom: 30px;">Project Gallery</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
+        
+        {% for project in projects %}
+        <div class="project-card" style="background: var(--card-bg); border: 1px solid var(--border-pale); border-left: 6px solid var(--element-green); padding: 25px; border-radius: 12px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onclick="openModal('proj-content-{{ loop.index }}')" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+            <div style="margin-bottom: 20px;">
+                <img 
+                    src="{{ project.image_url }}" 
+                    alt="{{ project.name }} Preview" 
+                    style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-pale);"
+                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ project.name }}&background=4CAF50&color=ffffff&size=250';"
+                >
+            </div>
+            
+            <h3 style="margin-top: 0; font-size: 1.5rem; color: var(--heading-green);">{{ project.name }}</h3>
+            <p style="color: var(--text-main); line-height: 1.5; height: 4.5em; overflow: hidden;">{{ project.description }}</p>
+            
+            <div style="margin-top: 25px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="background: var(--element-peach); color: var(--text-main); padding: 8px 16px; border-radius: 6px; font-size: 0.9rem; font-weight: bold;">Explore Architecture</span>
+                <span style="font-size: 0.8rem; color: #888;">Live from GitHub</span>
+            </div>
+
+            <div id="proj-content-{{ loop.index }}" style="display: none;">
+                <div class="markdown-body">
+                    {{ project.html_content | safe }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+</section>
+
+<section id="events-dashboard" style="margin-top: 80px; margin-bottom: 100px;">
+    <h2 style="border-bottom: 2px solid var(--element-green); padding-bottom: 10px; margin-bottom: 30px;">Milestones & Certifications</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+        
+        {% for event in events %}
+        <div class="project-card" style="background: var(--card-bg); border: 1px solid var(--border-pale); border-top: 6px solid var(--element-green); padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;" onclick="openModal('event-content-{{ loop.index }}')">
+            <img src="{{ event.cert_url }}" alt="Credential" style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            
+            <h3 style="margin-top: 0; margin-bottom: 5px; font-size: 1.3rem;">{{ event.title }}</h3>
+            
+            {% if event.org %}
+                <p style="color: #777777; font-size: 0.85rem; margin-top: 0; margin-bottom: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">{{ event.org }}</p>
+            {% endif %}
+
+            <p style="color: var(--heading-green); font-weight: 500;">{{ event.description[0] }}</p>
+            
+            <div id="event-content-{{ loop.index }}" style="display: none;">
+                <div style="text-align: center; padding: 10px;">
+                    <img src="{{ event.cert_url }}" alt="Full Certificate" style="max-width: 100%; border: 5px solid var(--element-green); border-radius: 10px; margin-bottom: 20px;">
+                    <h2 style="font-size: 2rem; margin-bottom: 5px;">{{ event.title }}</h2>
+                    
+                    {% if event.org %}
+                        <h4 style="color: #777777; margin-top: 0; font-size: 1.1rem; font-weight: normal;">Issued by: <strong>{{ event.org }}</strong></h4>
+                    {% endif %}
+                    
+                    <hr style="border: 0; border-top: 2px solid var(--element-peach); width: 50px; margin: 20px auto;">
+                    {% for line in event.description %}
+                        <p style="font-size: 1.2rem; line-height: 1.6;">{{ line }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+</section>
+
+<div id="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(252, 251, 248, 0.96); z-index: 999; backdrop-filter: blur(5px);" onclick="closeModal()"></div>
+<div id="universal-modal" style="display: none; position: fixed; top: 5%; left: 5%; width: 90%; height: 90%; background: var(--card-bg); border: 4px solid var(--element-green); border-radius: 15px; padding: 40px; overflow-y: auto; z-index: 1000; box-shadow: 0 20px 50px rgba(0,0,0,0.15);">
+    <button onclick="closeModal()" style="position: sticky; top: 0; float: right; background: var(--element-orange); color: var(--text-light); border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; z-index: 1001;">Close Explorer</button>
+    <div id="modal-content-area" style="margin-top: 40px;"></div>
+</div>
+
+<script src="{{url_for('static', filename='js/script.js')}}"></script>
+{% endblock %}

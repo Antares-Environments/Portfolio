@@ -1,0 +1,17 @@
+[Gemini 3 Hackathon - Build What's Next]
+ORG: Google DeepMind
+Built a Video Intelligence Platform with HITL Refinement
+
+[GitLab AI Hackathon]
+ORG: GitLab
+Added MCP Integration of Relative Video Intelligence Environment in GitLab Platform.
+Automated Agent Workflows for speeding development
+
+[Gemini Live Agent Challenge]
+ORG: Google LLC
+Submitted a Pre Presentation Support Live Agent
+
+[Oracle Cloud Infrastructure Certified AI Foundations Associate]
+ORG: Oracle University
+Date of issue: 01/11/2025
+Expires: 01/11/2027
