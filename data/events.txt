@@ -15,4 +15,4 @@ Submitted a Pre Presentation Support Live Agent
 ORG: Oracle University
 Date of issue: 01/11/2025
 Expires: 01/11/2027
-CERT: "C:/Users/Antares/Downloads/OCI25AICFA.jpg"
+CERT: path
