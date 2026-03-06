@@ -9,14 +9,22 @@ app = Flask(__name__)
 
 # --- PARSERS & HELPERS ---
 
+def get_github_headers():
+    """Fetches the GitHub token from environment variables to bypass rate limits."""
+    token = os.environ.get('PORTFOLIO_API')
+    if token:
+        return {'Authorization': f'token {token}'}
+    return {}
+
 def fetch_readme_as_html(username, repo):
     """Fetches the README.md, checking both main and master branches."""
     branches = ['main', 'master']
+    headers = get_github_headers()
     
     for branch in branches:
         url = f"https://raw.githubusercontent.com/{username}/{repo}/{branch}/README.md"
         try:
-            response = requests.get(url, timeout=5)
+            response = requests.get(url, headers=headers, timeout=5)
             if response.status_code == 200:
                 # Converts markdown to HTML with support for code blocks and tables
                 return markdown.markdown(response.text, extensions=['fenced_code', 'tables'])
@@ -28,10 +36,11 @@ def fetch_readme_as_html(username, repo):
 
 def find_repo_image(username, repo):
     """Scans the repository tree for a .png file to use as a thumbnail."""
+    headers = get_github_headers()
     for branch in ['main', 'master']:
         tree_url = f"https://api.github.com/repos/{username}/{repo}/git/trees/{branch}?recursive=1"
         try:
-            response = requests.get(tree_url, timeout=5)
+            response = requests.get(tree_url, headers=headers, timeout=5)
             if response.status_code == 200:
                 tree = response.json().get('tree', [])
                 
@@ -107,9 +116,11 @@ def generate_svg_segments(parsed_data, id_prefix):
 def get_github_projects(username, repo_names):
     """Fetches repository data and dynamically locates image files."""
     projects = []
+    headers = get_github_headers()
+    
     for repo in repo_names:
         api_url = f"https://api.github.com/repos/{username}/{repo}"
-        response = requests.get(api_url)
+        response = requests.get(api_url, headers=headers)
         if response.status_code == 200:
             data = response.json()
             
