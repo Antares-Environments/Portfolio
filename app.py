@@ -199,8 +199,8 @@ def home():
     skills_data = parse_menu_file('data/skills.txt')
     skill_segments = generate_svg_segments(skills_data, "skill")
     
-    # Automating fetching for Monarch-of-Florence repositories
-    github_projects = get_github_projects("Monarch-of-Florence", ["welt-vx", "data-cellar"])
+    # Swapped to your new organizational account
+    github_projects = get_github_projects("Antares-Environments", ["welt-vx", "data-cellar"])
     
     events_list = parse_events_file('data/events.txt')
     
