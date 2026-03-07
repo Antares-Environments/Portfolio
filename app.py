@@ -32,10 +32,10 @@ def fetch_readme_as_html(username, repo):
         pass 
 
     # Clean fallback if it fails
-    return f"<h3>Documentation Unavailable</h3><p>Could not find README.md for <b>{repo}</b>. Ensure the repository is public and initialized.</p>"
+    return f"<h3>Documentation Unavailable</h3><p>Could not find README.md for <b>{repo}</b>. Ensure the repository is initialized.</p>"
 
 def find_repo_image(username, repo, default_branch="main"):
-    """Scans the repository tree (including subfolders) for a .png file."""
+    """Scans the repository tree for a .png file and returns a base64 encoded string if found."""
     headers = get_github_headers()
     tree_url = f"https://api.github.com/repos/{username}/{repo}/git/trees/{default_branch}?recursive=1"
     
@@ -56,11 +56,21 @@ def find_repo_image(username, repo, default_branch="main"):
                         best_match = img
                         break
                 
-                return f"https://raw.githubusercontent.com/{username}/{repo}/{default_branch}/{best_match}"
+                # Fetch the actual image blob using the API to bypass browser auth issues
+                blob_url = f"https://api.github.com/repos/{username}/{repo}/contents/{best_match}"
+                blob_resp = requests.get(blob_url, headers=headers, timeout=5)
+                
+                if blob_resp.status_code == 200:
+                    blob_data = blob_resp.json()
+                    # GitHub returns base64 encoded content for files
+                    if 'content' in blob_data:
+                        # Keep it as base64 but format it for an HTML img tag
+                        img_base64 = blob_data['content'].replace('\n', '')
+                        return f"data:image/png;base64,{img_base64}"
     except Exception:
         pass 
             
-    # Clean fallback if absolutely no .png files exist in the repo
+    # Clean fallback utilizing the standard green/white UI palette
     return f"https://ui-avatars.com/api/?name={repo}&background=4CAF50&color=ffffff&size=250"
 
 def parse_menu_file(filepath):
@@ -114,9 +124,9 @@ def generate_svg_segments(parsed_data, id_prefix):
     return segments
 
 def get_github_projects():
-    """Fully automated dynamic fetch of all user repositories."""
+    """Fully automated dynamic fetch of all user repositories (public and private)."""
     headers = get_github_headers()
-    username = "Antares-Environments" # Fallback if no token is found
+    username = "Antares-Environments" 
     
     # 1. Ask the token exactly who it belongs to
     if headers:
@@ -127,8 +137,12 @@ def get_github_projects():
         except Exception:
             pass
 
-    # 2. Fetch all public repositories for that user
-    repos_url = f"https://api.github.com/users/{username}/repos?type=owner&sort=updated"
+    # 2. Fetch ALL repositories if token exists, otherwise fallback to public
+    if headers:
+        repos_url = "https://api.github.com/user/repos?visibility=all&affiliation=owner&sort=updated"
+    else:
+        repos_url = f"https://api.github.com/users/{username}/repos?type=owner&sort=updated"
+        
     projects = []
     
     try:

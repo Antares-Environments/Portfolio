@@ -1,38 +1,30 @@
 [Data Science]
 Data Preprocessing
-Data Transformation
-Data Pipelines
-Hyperparameter tuning
-Optimization
-Feature Engineering
-Data
-Supervised Learning 
-Unsupervised Learning
-Relational Databases
-Linear/Logistic Regression
-Gradient Descent
-Decision Trees
-Random Forest
-Gradient Boosting
-Naive Bayes
-Statistical and Probabilistic Modelling
-Financial Modelling
-Stress testing
-Hypotheses testing
-Data Structures
-Algorithms 
-Data Mining
-Synthetic Data
-Schema Definition
+Automated Data Pipelines and ML Pipelines
 EDA
-Diagnostic Analytics
-Predictive Analytics
-Prescriptive Analytics
-Graph Search Problems
+Statistical and Probabilistic Modelling
+Data Transformation
+Data Management
+Data Structures 
+DDL and Schema
+Algorithms
+Supervised Linear Models (Linear/Logistic Regression)
+Supervised Tree Models (Decision Trees, RandomForest, Gradient Boosting)
+Supervised Probabilistic Models (Naive Bayes)
+Unsupervised Learning (KNN, Clustering, Heirarchical Clustering)
+Optimization
+Hyperparameter tuning
+DE 
 Activation Functions
-Statistics and Probability
+Predictive Analysis
+Prescriptive Analysis
+Hypothesis testing
+Sequential Data Processing 
+Principal Component Analysis
+Generalisation
+Feature Engineering
 
-[AI Engineering]
+[AI Systems]
 Agentic Architecture
 Guardrails
 Agent Based Modelling
@@ -42,13 +34,12 @@ Agent Orchestration
 Reinforcement Learning
 Cloud Computing (GCP)
 Meta Learning
-Vector DB and PGSQL
+Vector DB
 Augmented Engineering
-Debugging
 Exception Handling
 Automated Workflows
 
-[Languages]
+[Languages and Frameworks]
 Python
 SQL
 HTML
@@ -58,3 +49,19 @@ React.js
 Markdown
 LaTeX
 Git 
+Flask
+FastAPI
+Reflex
+Streamlit
+PGSQL,NOSQL
+FastHTML
+JSON
+
+[Formal Systems]
+Linear ALgebra
+Stochastic Calculus
+Statistics and Probability
+Multvariate Calculus
+Formal Logistic
+Knowledge Graphs
+
