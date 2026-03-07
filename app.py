@@ -17,48 +17,48 @@ def get_github_headers():
     return {}
 
 def fetch_readme_as_html(username, repo):
-    """Fetches the README.md, checking both main and master branches."""
-    branches = ['main', 'master']
+    """Fetches the README.md securely using the GitHub API."""
+    url = f"https://api.github.com/repos/{username}/{repo}/readme"
     headers = get_github_headers()
     
-    for branch in branches:
-        url = f"https://raw.githubusercontent.com/{username}/{repo}/{branch}/README.md"
-        try:
-            response = requests.get(url, headers=headers, timeout=5)
-            if response.status_code == 200:
-                # Converts markdown to HTML with support for code blocks and tables
-                return markdown.markdown(response.text, extensions=['fenced_code', 'tables'])
-        except requests.exceptions.RequestException:
-            pass # Silently fail and try the next branch
+    try:
+        response = requests.get(url, headers=headers, timeout=5)
+        if response.status_code == 200:
+            data = response.json()
+            # GitHub API returns base64 encoded content for the readme
+            content = base64.b64decode(data['content']).decode('utf-8')
+            return markdown.markdown(content, extensions=['fenced_code', 'tables'])
+    except Exception:
+        pass 
 
-    # Fallback if it fails both branches
-    return f"<h3>Documentation Unavailable</h3><p>Could not find README.md on 'main' or 'master' for <b>{repo}</b>. Ensure the repository is public and the file exists.</p>"
+    # Clean fallback if it fails
+    return f"<h3>Documentation Unavailable</h3><p>Could not find README.md for <b>{repo}</b>. Ensure the repository is public and initialized.</p>"
 
-def find_repo_image(username, repo):
-    """Scans the repository tree for a .png file to use as a thumbnail."""
+def find_repo_image(username, repo, default_branch="main"):
+    """Scans the repository tree (including subfolders) for a .png file."""
     headers = get_github_headers()
-    for branch in ['main', 'master']:
-        tree_url = f"https://api.github.com/repos/{username}/{repo}/git/trees/{branch}?recursive=1"
-        try:
-            response = requests.get(tree_url, headers=headers, timeout=5)
-            if response.status_code == 200:
-                tree = response.json().get('tree', [])
+    tree_url = f"https://api.github.com/repos/{username}/{repo}/git/trees/{default_branch}?recursive=1"
+    
+    try:
+        response = requests.get(tree_url, headers=headers, timeout=5)
+        if response.status_code == 200:
+            tree = response.json().get('tree', [])
+            
+            # Filter the tree for anything ending in .png, regardless of folder depth
+            png_files = [item['path'] for item in tree if item['path'].endswith('.png')]
+            
+            if png_files:
+                # Smart selection: prioritize files named logo, thumb, icon, or cover
+                best_match = png_files[0]
+                for img in png_files:
+                    img_lower = img.lower()
+                    if 'logo' in img_lower or 'thumb' in img_lower or 'cover' in img_lower or 'icon' in img_lower:
+                        best_match = img
+                        break
                 
-                # Filter the tree for anything ending in .png
-                png_files = [item['path'] for item in tree if item['path'].endswith('.png')]
-                
-                if png_files:
-                    # Smart selection: prioritize files named logo, thumb, or cover
-                    best_match = png_files[0]
-                    for img in png_files:
-                        img_lower = img.lower()
-                        if 'logo' in img_lower or 'thumb' in img_lower or 'cover' in img_lower:
-                            best_match = img
-                            break
-                    
-                    return f"https://raw.githubusercontent.com/{username}/{repo}/{branch}/{best_match}"
-        except Exception:
-            pass 
+                return f"https://raw.githubusercontent.com/{username}/{repo}/{default_branch}/{best_match}"
+    except Exception:
+        pass 
             
     # Clean fallback if absolutely no .png files exist in the repo
     return f"https://ui-avatars.com/api/?name={repo}&background=4CAF50&color=ffffff&size=250"
@@ -113,26 +113,49 @@ def generate_svg_segments(parsed_data, id_prefix):
             })
     return segments
 
-def get_github_projects(username, repo_names):
-    """Fetches repository data and dynamically locates image files."""
-    projects = []
+def get_github_projects():
+    """Fully automated dynamic fetch of all user repositories."""
     headers = get_github_headers()
+    username = "Antares-Environments" # Fallback if no token is found
     
-    for repo in repo_names:
-        api_url = f"https://api.github.com/repos/{username}/{repo}"
-        response = requests.get(api_url, headers=headers)
-        if response.status_code == 200:
-            data = response.json()
+    # 1. Ask the token exactly who it belongs to
+    if headers:
+        try:
+            user_resp = requests.get("https://api.github.com/user", headers=headers, timeout=5)
+            if user_resp.status_code == 200:
+                username = user_resp.json().get('login', username)
+        except Exception:
+            pass
+
+    # 2. Fetch all public repositories for that user
+    repos_url = f"https://api.github.com/users/{username}/repos?type=owner&sort=updated"
+    projects = []
+    
+    try:
+        repo_resp = requests.get(repos_url, headers=headers, timeout=5)
+        if repo_resp.status_code == 200:
+            repos = repo_resp.json()
             
-            # Triggers the new scanner to find a .png in the repo
-            image_url = find_repo_image(username, repo)
+            # Filter out forks and limit to the 6 most recent to keep page load lightning fast
+            repos = [r for r in repos if not r.get('fork')][:6]
             
-            projects.append({
-                'name': data['name'],
-                'description': data['description'],
-                'image_url': image_url,
-                'html_content': fetch_readme_as_html(username, repo)
-            })
+            for repo in repos:
+                repo_name = repo['name']
+                default_branch = repo.get('default_branch', 'main')
+                
+                # Dynamically fetch the image and readme based on the actual default branch
+                image_url = find_repo_image(username, repo_name, default_branch)
+                html_content = fetch_readme_as_html(username, repo_name)
+                
+                projects.append({
+                    'name': repo_name,
+                    'description': repo.get('description') or "No description provided.",
+                    'image_url': image_url,
+                    'html_content': html_content
+                })
+    except Exception:
+        pass
+        
     return projects
 
 def parse_events_file(filepath):
@@ -147,13 +170,11 @@ def parse_events_file(filepath):
             
             if line.startswith('[') and line.endswith(']'):
                 if current_event: events_data.append(current_event)
-                # Added 'org' key to the dictionary
                 current_event = {'title': line[1:-1], 'org': '', 'description': [], 'cert_url': ''}
             elif current_event is not None:
                 if line.startswith('CERT:'):
                     current_event['cert_url'] = line.replace('CERT:', '').strip()
                 elif line.startswith('ORG:'):
-                    # Captures the new organization tag
                     current_event['org'] = line.replace('ORG:', '').strip()
                 else:
                     current_event['description'].append(line)
@@ -199,8 +220,8 @@ def home():
     skills_data = parse_menu_file('data/skills.txt')
     skill_segments = generate_svg_segments(skills_data, "skill")
     
-    # Swapped to your new organizational account
-    github_projects = get_github_projects("Antares-Environments", ["welt-vx", "data-cellar"])
+    # Fully automated array generation using the token
+    github_projects = get_github_projects()
     
     events_list = parse_events_file('data/events.txt')
     
