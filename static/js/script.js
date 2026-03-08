@@ -88,4 +88,13 @@ document.addEventListener('keydown', function(event) {
             closeModal();
         }
     }
+    
+    const langOpts = document.querySelectorAll('.lang-opt');
+
+    langOpts.forEach(opt => {
+        opt.addEventListener('click', function() {
+            langOpts.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
 });

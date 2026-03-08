@@ -7,12 +7,20 @@
     --element-orange: #FF9800;
     --heading-green: #2E8B57;
     --element-green: #4CAF50;
+    --element-jade: #00A86B;
     --element-ruby: #c42d19;
+    --element-olive: #6B8E23;
+    --element-brown: #8B5A2B;
     --border-pale: #EAE6DF;
+    
+    /* Translucent Glass Tones */
+    --glass-emerald: rgba(76, 175, 80, 0.08); 
+    --glass-jade: rgba(0, 168, 53, 0.25);
 }
 
 body {
     background-color: var(--page-bg);
+    background-image: url("data:image/svg+xml,%3Csvg width='44' height='76.21' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M22 38.105l22 12.702v25.403L22 88.91l-22-12.701V50.807zM22-38.105l22 12.702v25.403L22 12.701 0 0v-25.403zM0 38.105l-22 12.702v25.403L-44 88.91l-22-12.701V50.807zM44 38.105l22 12.702v25.403L44 88.91l-22-12.701V50.807z' fill='none' stroke='%236B8E23' stroke-width='1' stroke-opacity='0.15'/%3E%3C/svg%3E");
     color: var(--text-main);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -24,12 +32,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-    color: var(--element-green);
+    color: var(--text-main);
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 nav {
-    background-color: var(--element-green);
+    background-color: var(--element-olive);
     padding: 1rem 2rem;
 }
 
@@ -45,6 +54,7 @@ nav {
     color: var(--text-light);
     font-weight: bold;
     font-size: 1.1rem;
+    transition: color 0.3s ease;
 }
 
 main {
@@ -54,30 +64,76 @@ main {
 }
 
 .project-icon {
-    color: var(--element-orange);
+    color: var(--element-ruby);
     font-size: 1.5rem;
+    transition: color 0.3s ease;
 }
 
 ::selection {
-    background-color: #4CAF50;
-    color: #FFFFFF;
+    background-color: var(--element-olive);
+    color: var(--text-light);
 }
 
 ::-moz-selection {
-    background-color: #4CAF50;
-    color: #FFFFFF;
+    background-color: var(--element-olive);
+    color: var(--text-light);
 }
 
 a:hover, 
 button:hover, 
 .nav-link:hover,
-.project-card:hover h3, 
-.project-card:hover p,
-.project-card:hover .project-icon,
 .nav-links a:hover {
-    color: inherit !important;
+    color: var(--element-green) !important;
     background-color: inherit;
     text-decoration: none !important;
+}
+
+/* Translucent Glass Hover Engine for Cards */
+.project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease !important;
+}
+
+.project-card:hover {
+    transform: translateY(-6px) !important;
+    background-color: var(--glass-emerald) !important;
+    box-shadow: 0 15px 35px var(--glass-jade) !important;
+    backdrop-filter: blur(8px) !important;
+    border-color: var(--element-jade) !important;
+}
+
+.project-card:hover h3 {
+    color: var(--element-green) !important;
+}
+
+.project-card:hover p {
+    color: var(--text-main) !important;
+}
+
+.project-card:hover .project-icon {
+    color: var(--element-green) !important;
+}
+
+#language-flex-toggle {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    display: flex;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+}
+
+.lang-opt {
+    color: var(--element-brown);
+    cursor: pointer;
+    padding-bottom: 2px;
+    transition: color 0.3s;
+}
+
+.lang-opt.active {
+    color: var(--heading-green);
+    border-bottom: 2px solid var(--element-ruby);
 }
 
 @keyframes fadeIn {
