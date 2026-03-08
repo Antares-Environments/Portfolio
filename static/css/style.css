@@ -74,3 +74,22 @@ main {
 .project-card:hover .project-icon {
     color: var(--element-peach);
 }
+
+::selection {
+    background-color: #4CAF50; 
+    color: #FFFFFF; 
+}
+::-moz-selection {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+}
+a:hover, 
+button:hover, 
+.nav-link:hover,
+.project-card:hover h3, 
+.project-card:hover p {
+    color: inherit !important;
+    background-color: inherit;
+    text-decoration: none !important;
+}
+

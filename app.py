@@ -35,7 +35,7 @@ def fetch_readme_as_html(username, repo):
     return f"<h3>Documentation Unavailable</h3><p>Could not find README.md for <b>{repo}</b>. Ensure the repository is initialized.</p>"
 
 def find_repo_image(username, repo, default_branch="main"):
-    """Scans the repository tree for a .png file and returns a base64 encoded string if found."""
+    """Scans the repository tree and strictly downloads the raw image bytes to bypass API limits and LFS pointers."""
     headers = get_github_headers()
     tree_url = f"https://api.github.com/repos/{username}/{repo}/git/trees/{default_branch}?recursive=1"
     
@@ -43,12 +43,9 @@ def find_repo_image(username, repo, default_branch="main"):
         response = requests.get(tree_url, headers=headers, timeout=5)
         if response.status_code == 200:
             tree = response.json().get('tree', [])
-            
-            # Filter the tree for anything ending in .png, regardless of folder depth
             png_files = [item['path'] for item in tree if item['path'].endswith('.png')]
             
             if png_files:
-                # Smart selection: prioritize files named logo, thumb, icon, or cover
                 best_match = png_files[0]
                 for img in png_files:
                     img_lower = img.lower()
@@ -56,21 +53,27 @@ def find_repo_image(username, repo, default_branch="main"):
                         best_match = img
                         break
                 
-                # Fetch the actual image blob using the API to bypass browser auth issues
+                # Step 1: Ask the API for the file metadata
                 blob_url = f"https://api.github.com/repos/{username}/{repo}/contents/{best_match}"
                 blob_resp = requests.get(blob_url, headers=headers, timeout=5)
                 
                 if blob_resp.status_code == 200:
                     blob_data = blob_resp.json()
-                    # GitHub returns base64 encoded content for files
-                    if 'content' in blob_data:
-                        # Keep it as base64 but format it for an HTML img tag
-                        img_base64 = blob_data['content'].replace('\n', '')
-                        return f"data:image/png;base64,{img_base64}"
+                    
+                    # Step 2: Extract the direct download URL (handles LFS and large files)
+                    download_url = blob_data.get('download_url')
+                    
+                    if download_url:
+                        # Step 3: Download the raw image bytes and encode them
+                        raw_img_resp = requests.get(download_url, headers=headers, timeout=5)
+                        if raw_img_resp.status_code == 200:
+                            img_base64 = base64.b64encode(raw_img_resp.content).decode('utf-8')
+                            return f"data:image/png;base64,{img_base64}"
+                            
     except Exception:
         pass 
             
-    # Clean fallback utilizing the standard green/white UI palette
+    # Clean fallback
     return f"https://ui-avatars.com/api/?name={repo}&background=4CAF50&color=ffffff&size=250"
 
 def parse_menu_file(filepath):
