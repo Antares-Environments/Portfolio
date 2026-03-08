@@ -39,7 +39,7 @@ Augmented Engineering
 Exception Handling
 Automated Workflows
 
-[Languages and Frameworks]
+[Languages/Frameworks]
 Python
 SQL
 HTML
