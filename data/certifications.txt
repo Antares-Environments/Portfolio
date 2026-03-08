@@ -1,0 +1,3 @@
+[OCI AI Certified Foundations Associate]
+ORG: Oracle University
+CERT: static\Credentials\OCI25AICFA.jpg

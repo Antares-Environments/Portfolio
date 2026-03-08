@@ -1,18 +1,13 @@
 :root {
-    /* Base Tones */
-    --page-bg: #FCFBF8; /* Cream / Pale tone */
-    --card-bg: #FFFFFF; /* White for cards */
-    --text-main: #1A1A1A; /* Deep b/w tone for text */
-    --text-light: #FFFFFF; 
-    
-    /* Interactive Accents */
-    --element-peach: #FFDAB9; 
-    --element-orange: #FF9800; 
-    
-    /* Structural Colors */
-    --heading-green: #2E8B57; 
-    --element-green: #4CAF50; 
-    --border-pale: #EAE6DF; 
+    --page-bg: #FCFBF8;
+    --card-bg: #FFFFFF;
+    --text-main: #1A1A1A;
+    --text-light: #FFFFFF;
+    --element-peach: #FFDAB9;
+    --element-orange: #FF9800;
+    --heading-green: #2E8B57;
+    --element-green: #4CAF50;
+    --border-pale: #EAE6DF;
 }
 
 body {
@@ -30,10 +25,6 @@ h1, h2, h3, h4, h5, h6 {
 a {
     color: var(--element-green);
     text-decoration: none;
-}
-
-a:hover {
-    color: var(--element-orange);
 }
 
 nav {
@@ -55,10 +46,6 @@ nav {
     font-size: 1.1rem;
 }
 
-.nav-links a:hover {
-    color: var(--element-peach);
-}
-
 main {
     padding: 2rem;
     max-width: 1200px;
@@ -68,28 +55,37 @@ main {
 .project-icon {
     color: var(--element-orange);
     font-size: 1.5rem;
-    transition: color 0.3s ease;
-}
-
-.project-card:hover .project-icon {
-    color: var(--element-peach);
 }
 
 ::selection {
-    background-color: #4CAF50; 
-    color: #FFFFFF; 
+    background-color: #4CAF50;
+    color: #FFFFFF;
 }
+
 ::-moz-selection {
     background-color: #4CAF50;
     color: #FFFFFF;
 }
+
 a:hover, 
 button:hover, 
 .nav-link:hover,
 .project-card:hover h3, 
-.project-card:hover p {
+.project-card:hover p,
+.project-card:hover .project-icon,
+.nav-links a:hover {
     color: inherit !important;
     background-color: inherit;
     text-decoration: none !important;
 }
 
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

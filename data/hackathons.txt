@@ -1,0 +1,11 @@
+[Google Gemini 3 Hackathon - Build What's Next]
+ORG: Google DeepMind
+
+[GitLab AI Hackathon]
+ORG: GitLab
+
+
+
+
+[Gemini Live Agent Challenge]
+ORG: Google LLC

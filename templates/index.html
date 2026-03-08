@@ -10,9 +10,9 @@
     </p>
 </section>
 
-<section id="skillset-navigator" style="display: flex; gap: 40px; align-items: center; margin-top: 60px; justify-content: center; flex-wrap: wrap;">
+<section id="skillset-navigator" style="display: flex; flex-direction: column; align-items: center; margin-top: 60px;">
     <div id="svg-container">
-        <svg width="300" height="300" viewBox="0 0 300 300">
+        <svg width="500" height="500" viewBox="0 0 500 500">
             {% for segment in skill_segments %}
                 <path 
                     id="slice-{{ segment.id }}" 
@@ -27,7 +27,7 @@
                     <title>{{ segment.label }}</title>
                 </path>
                 {% if loop.first %}
-                <text id="skill-center-label" x="150" y="150" text-anchor="middle" dominant-baseline="middle" font-size="18" fill="var(--text-main)" font-weight="bold">
+                <text id="skill-center-label" x="250" y="250" text-anchor="middle" dominant-baseline="middle" font-size="22" fill="var(--text-main)" font-weight="bold" style="pointer-events: none;">
                     Select Skill
                 </text>
                 {% endif %}
@@ -35,17 +35,17 @@
         </svg>
     </div>
 
-    <div id="skill-details-container" style="flex-grow: 1; min-width: 300px; max-width: 500px;">
+    <div id="skill-details-container" style="width: 100%; max-width: 800px; margin-top: 40px; text-align: center;">
         {% for segment in skill_segments %}
-            <div id="content-{{ segment.id }}" class="skill-category" style="display: none; background: var(--card-bg); padding: 25px; border-left: 5px solid var(--element-green); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-                <h3 style="color: var(--heading-green); margin-top: 0; border-bottom: 1px solid var(--border-pale); padding-bottom: 10px;">{{ segment.label }}</h3>
-                <ul style="list-style-type: none; padding-left: 0; margin-top: 15px;">
+            <div id="content-{{ segment.id }}" class="skill-category" style="display: none; animation: fadeIn 0.4s ease-in-out;">
+                <h3 style="color: var(--heading-green); margin-top: 0; margin-bottom: 30px; font-size: 2rem; border-bottom: 2px solid var(--border-pale); padding-bottom: 15px;">{{ segment.label }}</h3>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
                     {% for item in segment['items'] %}
-                        <li style="margin-bottom: 10px; font-size: 1.1rem; color: var(--text-main); display: flex; align-items: center;">
-                            <span style="color: var(--element-green); margin-right: 10px;">•</span> {{ item }}
-                        </li>
+                        <span style="background: var(--element-green); color: #FFFFFF; padding: 12px 24px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            {{ item }}
+                        </span>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
         {% endfor %}
     </div>
@@ -54,9 +54,8 @@
 <section id="project-dashboard" style="margin-top: 80px;">
     <h2 style="border-bottom: 2px solid var(--element-green); padding-bottom: 10px; margin-bottom: 30px;">Project Gallery</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
-        
         {% for project in projects %}
-        <div class="project-card" style="background: var(--card-bg); border: 1px solid var(--border-pale); border-left: 6px solid var(--element-green); padding: 25px; border-radius: 12px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onclick="openModal('proj-content-{{ loop.index }}')" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+        <div class="project-card" style="background: var(--card-bg); border: 1px solid var(--border-pale); border-left: 6px solid var(--element-green); padding: 25px; border-radius: 12px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onclick="openModal('proj-content-{{ loop.index }}')">
             <div style="margin-bottom: 20px;">
                 <img 
                     src="{{ project.image_url }}" 
@@ -65,15 +64,12 @@
                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ project.name }}&background=4CAF50&color=ffffff&size=250';"
                 >
             </div>
-            
             <h3 style="margin-top: 0; font-size: 1.5rem; color: var(--heading-green);">{{ project.name }}</h3>
             <p style="color: var(--text-main); line-height: 1.5; height: 4.5em; overflow: hidden;">{{ project.description }}</p>
-            
             <div style="margin-top: 25px; display: flex; justify-content: space-between; align-items: center;">
                 <span style="background: var(--element-peach); color: var(--text-main); padding: 8px 16px; border-radius: 6px; font-size: 0.9rem; font-weight: bold;">Explore Architecture</span>
                 <span style="font-size: 0.8rem; color: #888;">Live from GitHub</span>
             </div>
-
             <div id="proj-content-{{ loop.index }}" style="display: none;">
                 <div class="markdown-body">
                     {{ project.html_content | safe }}
@@ -81,44 +77,59 @@
             </div>
         </div>
         {% endfor %}
-        
     </div>
 </section>
 
-<section id="events-dashboard" style="margin-top: 80px; margin-bottom: 100px;">
-    <h2 style="border-bottom: 2px solid var(--element-green); padding-bottom: 10px; margin-bottom: 30px;">Milestones & Certifications</h2>
+<section id="certifications-dashboard" style="margin-top: 80px;">
+    <h2 style="border-bottom: 2px solid var(--element-green); padding-bottom: 10px; margin-bottom: 30px;">Formal Certifications</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
-        
-        {% for event in events %}
-        <div class="project-card" style="background: var(--card-bg); border: 1px solid var(--border-pale); border-top: 6px solid var(--element-green); padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;" onclick="openModal('event-content-{{ loop.index }}')">
-            <img src="{{ event.cert_url }}" alt="Credential" style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            
-            <h3 style="margin-top: 0; margin-bottom: 5px; font-size: 1.3rem;">{{ event.title }}</h3>
-            
-            {% if event.org %}
-                <p style="color: #777777; font-size: 0.85rem; margin-top: 0; margin-bottom: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">{{ event.org }}</p>
+        {% for cert in certs %}
+        <div class="project-card" style="background: var(--card-bg); border: 1px solid var(--border-pale); border-top: 6px solid var(--element-green); padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;" onclick="openModal('cert-content-{{ loop.index }}')">
+            {% if cert.cert_url %}
+            <img src="{{ cert.cert_url }}" alt="Credential" style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
             {% endif %}
-
-            <p style="color: var(--heading-green); font-weight: 500;">{{ event.description[0] }}</p>
-            
-            <div id="event-content-{{ loop.index }}" style="display: none;">
+            <h3 style="margin-top: 0; margin-bottom: 5px; font-size: 1.3rem;">{{ cert.title }}</h3>
+            {% if cert.org %}
+                <p style="color: #777777; font-size: 0.85rem; margin-top: 0; margin-bottom: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">{{ cert.org }}</p>
+            {% endif %}
+            <div id="cert-content-{{ loop.index }}" style="display: none;">
                 <div style="text-align: center; padding: 10px;">
-                    <img src="{{ event.cert_url }}" alt="Full Certificate" style="max-width: 100%; border: 5px solid var(--element-green); border-radius: 10px; margin-bottom: 20px;">
-                    <h2 style="font-size: 2rem; margin-bottom: 5px;">{{ event.title }}</h2>
-                    
-                    {% if event.org %}
-                        <h4 style="color: #777777; margin-top: 0; font-size: 1.1rem; font-weight: normal;">Issued by: <strong>{{ event.org }}</strong></h4>
+                    {% if cert.cert_url %}
+                    <img src="{{ cert.cert_url }}" alt="Full Certificate" style="max-width: 100%; border: 5px solid var(--element-green); border-radius: 10px; margin-bottom: 20px;">
                     {% endif %}
-                    
+                    <h2 style="font-size: 2rem; margin-bottom: 5px;">{{ cert.title }}</h2>
+                    {% if cert.org %}
+                        <h4 style="color: #777777; margin-top: 0; font-size: 1.1rem; font-weight: normal;">Issued by: <strong>{{ cert.org }}</strong></h4>
+                    {% endif %}
                     <hr style="border: 0; border-top: 2px solid var(--element-peach); width: 50px; margin: 20px auto;">
-                    {% for line in event.description %}
+                    {% for line in cert.description %}
                         <p style="font-size: 1.2rem; line-height: 1.6;">{{ line }}</p>
                     {% endfor %}
                 </div>
             </div>
         </div>
         {% endfor %}
-        
+    </div>
+</section>
+
+<section id="hackathons-dashboard" style="margin-top: 60px; margin-bottom: 100px;">
+    <h2 style="border-bottom: 2px solid var(--element-green); padding-bottom: 10px; margin-bottom: 30px;">Hackathons & Competitions</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+        {% for hackathon in hackathons %}
+        <div class="project-card" style="background: var(--card-bg); border: 1px solid var(--border-pale); border-left: 6px solid var(--element-peach); padding: 25px; border-radius: 12px;">
+            <h3 style="margin-top: 0; font-size: 1.4rem; color: var(--heading-green); margin-bottom: 5px;">{{ hackathon.title }}</h3>
+            {% if hackathon.org %}
+                <p style="color: #777777; font-size: 0.85rem; margin-top: 0; margin-bottom: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">{{ hackathon.org }}</p>
+            {% endif %}
+            <ul style="list-style-type: none; padding-left: 0; margin-top: 15px;">
+                {% for line in hackathon.description %}
+                    <li style="margin-bottom: 10px; font-size: 1rem; color: var(--text-main); display: flex; align-items: flex-start;">
+                        <span style="color: var(--element-green); margin-right: 10px;">•</span> {{ line }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
     </div>
 </section>
 
