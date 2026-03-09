@@ -13,18 +13,52 @@
     --element-brown: #8B5A2B;
     --border-pale: #EAE6DF;
     
-    /* Translucent Glass Tones */
-    --glass-emerald: rgba(76, 175, 80, 0.08); 
-    --glass-jade: rgba(0, 168, 53, 0.25);
+    --glass-emerald: rgba(76, 175, 80, 0.15); 
+    --glass-jade: rgba(0, 168, 107, 0.3);
+    --glass-white: rgba(255, 255, 255, 0.45);
 }
 
 body {
     background-color: var(--page-bg);
-    background-image: url("data:image/svg+xml,%3Csvg width='44' height='76.21' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M22 38.105l22 12.702v25.403L22 88.91l-22-12.701V50.807zM22-38.105l22 12.702v25.403L22 12.701 0 0v-25.403zM0 38.105l-22 12.702v25.403L-44 88.91l-22-12.701V50.807zM44 38.105l22 12.702v25.403L44 88.91l-22-12.701V50.807z' fill='none' stroke='%236B8E23' stroke-width='1' stroke-opacity='0.15'/%3E%3C/svg%3E");
     color: var(--text-main);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
+    position: relative;
+    min-height: 100vh;
+}
+
+#honeycomb-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.hex-cluster {
+    position: absolute;
+    opacity: 0.45;
+}
+
+.hex-cell {
+    position: absolute;
+    width: 120px;
+    height: 138px;
+    background: linear-gradient(135deg, var(--element-orange) 0%, var(--element-peach) 40%, var(--element-brown) 100%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.hex-cell::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom right, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 60%);
+    z-index: 1;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -88,21 +122,21 @@ button:hover,
     text-decoration: none !important;
 }
 
-/* Translucent Glass Hover Engine for Cards */
 .project-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease !important;
 }
 
 .project-card:hover {
-    transform: translateY(-6px) !important;
-    background-color: var(--glass-emerald) !important;
-    box-shadow: 0 15px 35px var(--glass-jade) !important;
-    backdrop-filter: blur(8px) !important;
-    border-color: var(--element-jade) !important;
+    transform: translateY(-8px) !important;
+    background-color: var(--glass-white) !important;
+    box-shadow: 0 15px 35px var(--glass-jade), inset 0 0 15px rgba(255,255,255,0.6) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .project-card:hover h3 {
-    color: var(--element-green) !important;
+    color: var(--element-jade) !important;
 }
 
 .project-card:hover p {
@@ -122,6 +156,7 @@ button:hover,
     font-weight: 700;
     font-size: 0.95rem;
     letter-spacing: 1px;
+    z-index: 10;
 }
 
 .lang-opt {
