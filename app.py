@@ -4,8 +4,11 @@ import math
 import requests
 import markdown
 import base64
+import time
 
 app = Flask(__name__)
+
+_CACHE = {'projects': None, 'time': 0}
 
 def get_github_headers():
     token = os.environ.get('PORTFOLIO_API')
@@ -103,6 +106,9 @@ def generate_svg_segments(parsed_data, id_prefix):
     return segments
 
 def get_github_projects():
+    global _CACHE
+    if _CACHE['projects'] and (time.time() - _CACHE['time']) < 3600:
+        return _CACHE['projects']
     headers = get_github_headers()
     username = "Antares-Environments" 
     if headers:
@@ -135,6 +141,8 @@ def get_github_projects():
                 })
     except Exception:
         pass
+    _CACHE['projects'] = projects
+    _CACHE['time'] = time.time()
     return projects
 
 def parse_events_file(filepath):
