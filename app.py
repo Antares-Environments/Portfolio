@@ -36,7 +36,7 @@ def find_repo_image(username, repo, default_branch="main"):
         response = requests.get(tree_url, headers=headers, timeout=5)
         if response.status_code == 200:
             tree = response.json().get('tree', [])
-            png_files = [item['path'] for item in tree if item['path'].endswith('.png')]
+            png_files = [item['path'] for item in tree if item['path'].endswith('.png','.jpg','.jpeg','.svg')]
             if png_files:
                 best_match = png_files[0]
                 for img in png_files:
