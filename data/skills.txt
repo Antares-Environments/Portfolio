@@ -1,67 +1,75 @@
 [Data Science]
-Data Preprocessing
-Automated Data Pipelines and ML Pipelines
-EDA
-Statistical and Probabilistic Modelling
-Data Transformation
-Data Management
-Data Structures 
-DDL and Schema
-Algorithms
-Supervised Linear Models (Linear/Logistic Regression)
-Supervised Tree Models (Decision Trees, RandomForest, Gradient Boosting)
-Supervised Probabilistic Models (Naive Bayes)
-Unsupervised Learning (KNN, Clustering, Heirarchical Clustering)
 Optimization
-Hyperparameter tuning
-DE 
-Activation Functions
-Predictive Analysis
-Prescriptive Analysis
+Parameter tuning
+Regularisation
+ETL and ML Pipelines
+DDL
+EDA
+Descriptive/Diagnostic Analytics
+Predictive/Prescriptive Analytics
+Statistical Modelling
+Probabilistic Modelling
 Hypothesis testing
-Sequential Data Processing 
-Principal Component Analysis
 Generalisation
-Feature Engineering
+Linear Search Algorithms
+Supervised Learning Algorithms (Linear, Ensemble, Neurons, Naive Bayes)
+Unsupervised Learning Algorithms (NN, Means Clustering, Heirarchical Clustering)
+Data Preprocessing
+Data Transformation
+Principal Component Analysis
+Data Structures and Algorithms
+Stress testing
+Activation Functions
+Back Propagation
+Artificial Neural Networks
 
-[AI Systems]
-Agentic Architecture
-Guardrails
-Agent Based Modelling
-RAG Pipelines 
-Multimodal RAG
-Agent Orchestration
+
+
+
+
+[Agentic Systems]
+Agentic Orchestration for dynamic routing
+Live Multimodal Agents
+Parallel Processing
+Asynchronous Architectures
+Human-in-the-loop Systems
 Reinforcement Learning
-Cloud Computing (GCP)
-Meta Learning
-Vector DB
-Augmented Engineering
-Exception Handling
-Automated Workflows
 
-[Languages/Frameworks]
-Python
-SQL
+
+
+Multimodal RAG Pipelines
+Vector Databases 
+Cloud Deployment
+Token Optimization
+Swarm Systems
+Augmented Engineering
+
+
+
+
+[Languages]
 HTML
 CSS
 JavaScript
-React.js 
+React.js
+HTMX
+Python
+
+SQL
+NoSQL
+JSON
+C++
+Git
 Markdown
 LaTeX
-Git 
-Flask
-FastAPI
-Reflex
-Streamlit
-PGSQL,NOSQL
+
+
+
+
+[Frameworks]
+FastAPI + Vanilla Frontend
 FastHTML
-JSON
-
-[Formal Systems]
-Linear ALgebra
-Stochastic Calculus
-Statistics and Probability
-Multvariate Calculus
-Formal Logistic
-Knowledge Graphs
-
+WebSockets Integration
+Reflex
+Application Programming Interfaces
+Async
