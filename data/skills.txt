@@ -11,7 +11,9 @@ Statistical Modelling
 Probabilistic Modelling
 Hypothesis testing
 Generalisation
-Linear Search Algorithms
+Knowledge Representations
+Symbolic Search
+Line Search Algorithms
 Supervised Learning Algorithms (Linear, Ensemble, Neurons, Naive Bayes)
 Unsupervised Learning Algorithms (NN, Means Clustering, Heirarchical Clustering)
 Data Preprocessing
@@ -23,29 +25,19 @@ Activation Functions
 Back Propagation
 Artificial Neural Networks
 
-
-
-
-
 [Agentic Systems]
 Agentic Orchestration for dynamic routing
 Live Multimodal Agents
-Parallel Processing
 Asynchronous Architectures
 Human-in-the-loop Systems
 Reinforcement Learning
-
-
-
 Multimodal RAG Pipelines
 Vector Databases 
-Cloud Deployment
+Google Cloud Platform
 Token Optimization
 Swarm Systems
 Augmented Engineering
-
-
-
+Automated Deployment
 
 [Languages]
 HTML
@@ -54,7 +46,6 @@ JavaScript
 React.js
 HTMX
 Python
-
 SQL
 NoSQL
 JSON
@@ -62,14 +53,14 @@ C++
 Git
 Markdown
 LaTeX
-
-
-
+YAML
+TOML
 
 [Frameworks]
 FastAPI + Vanilla Frontend
 FastHTML
-WebSockets Integration
+WebSockets Routing
 Reflex
 Application Programming Interfaces
 Async
+
