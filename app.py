@@ -32,32 +32,46 @@ def fetch_readme_as_html(username, repo):
 def find_repo_image(username, repo, default_branch="main"):
     headers = get_github_headers()
     tree_url = f"https://api.github.com/repos/{username}/{repo}/git/trees/{default_branch}?recursive=1"
+    
+    valid_extensions = ('.png', '.jpg', '.jpeg', '.ico', '.webp')
+    
     try:
         response = requests.get(tree_url, headers=headers, timeout=5)
         if response.status_code == 200:
             tree = response.json().get('tree', [])
-            png_files = [item['path'] for item in tree if item['path'].endswith('.png','.jpg','.jpeg','.svg')]
-            if png_files:
-                best_match = png_files[0]
-                for img in png_files:
+            
+            image_files = [item['path'] for item in tree if item['path'].lower().endswith(valid_extensions)]
+            
+            if image_files:
+                best_match = image_files[0]
+                for img in image_files:
                     img_lower = img.lower()
-                    if 'logo' in img_lower or 'thumb' in img_lower or 'cover' in img_lower or 'icon' in img_lower:
+                    if any(x in img_lower for x in ['logo', 'thumb', 'cover', 'icon']):
                         best_match = img
                         break
+                
                 blob_url = f"https://api.github.com/repos/{username}/{repo}/contents/{best_match}"
                 blob_resp = requests.get(blob_url, headers=headers, timeout=5)
+                
                 if blob_resp.status_code == 200:
                     blob_data = blob_resp.json()
                     download_url = blob_data.get('download_url')
+                    
                     if download_url:
                         raw_img_resp = requests.get(download_url, timeout=5)
                         if raw_img_resp.status_code == 200:
+                            ext = best_match.split('.')[-1].lower()
+                            if ext == 'jpg': ext = 'jpeg'
+                            elif ext == 'ico': ext = 'x-icon'
+                            
                             img_base64 = base64.b64encode(raw_img_resp.content).decode('utf-8')
-                            return f"data:image/png;base64,{img_base64}"
+                            return f"data:image/{ext};base64,{img_base64}"
+                            
     except Exception:
         pass 
+            
     return f"https://ui-avatars.com/api/?name={repo}&background=4CAF50&color=ffffff&size=250"
-
+    
 def parse_menu_file(filepath):
     parsed_data = {}
     current_heading = None
