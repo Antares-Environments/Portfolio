@@ -1,7 +1,7 @@
 :root {
     --page-bg: #FFF3E6;
     --card-bg: #FFFFFF;
-    --text-main: #1A1A1A;
+    --text-main: #1b1b1b;
     --text-light: #FFFFFF;
     --element-peach: #FFDAB9;
     --element-orange: #FF9800;
@@ -10,11 +10,11 @@
     --element-jade: #13e30f;
     --element-ruby: #c42d19;
     --element-olive: #6B8E23;
-    --element-brown: #8B5A2B;
+    --element-brown: #532b06;
     --border-pale: #EAE6DF;
     
     --glass-emerald: rgba(45, 177, 12, 0.15); 
-    --glass-jade: rgba(50, 253, 4, 0.3);
+    --glass-jade: rgba(44, 209, 6, 0.658);
     --glass-white: rgba(255, 255, 255, 0.45);
 }
 
