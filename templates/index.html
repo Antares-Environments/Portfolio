@@ -29,9 +29,9 @@
                     fill="#4CAF50" 
                     class="skill-donut-slice"
                     style="cursor: pointer; transition: fill 0.3s ease, transform 0.3s ease; transform-origin: center;"
-                    onmouseover="hoverRingItem('{{ segment.id }}', '{{ segment.label }}', 'skill', '#FF9800')"
+                    onmouseover="hoverRingItem('{{ segment.id }}', '{{ segment.label }}', 'skill', 'var--element-olive')"
                     onmouseout="resetRingItem('{{ segment.id }}', 'skill')"
-                    onclick="clickRingItem('{{ segment.id }}', '{{ segment.label }}', 'skill', '#FF9800')"
+                    onclick="clickRingItem('{{ segment.id }}', '{{ segment.label }}', 'skill', 'var(--element-olive)')"
                 >
                     <title>{{ segment.label }}</title>
                 </path>
