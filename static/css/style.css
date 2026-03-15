@@ -5,13 +5,14 @@
     --text-light: #FFFFFF;
     --element-peach: #FFDAB9;
     --element-orange: #FF9800;
-    --heading-green: #2E8B57;
+    --heading-green: #2e8b31;
     --element-green: #6faf4c;
     --element-jade: #13e30f;
     --element-ruby: #c42d19;
-    --element-olive: #6B8E23;
-    --element-brown: #532b06;
+    --element-olive: #668f14;
+    --element-brown: #8e4603;
     --border-pale: #EAE6DF;
+    --g: #4CAF50 ;
     
     --glass-emerald: rgba(45, 177, 12, 0.15); 
     --glass-jade: rgba(44, 209, 6, 0.658);
