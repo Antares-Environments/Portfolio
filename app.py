@@ -133,7 +133,7 @@ def get_github_projects():
         except Exception:
             pass
     if headers:
-        repos_url = "https://api.github.com/user/repos?visibility=all&affiliation=owner&sort=updated"
+        repos_url = "https://api.github.com/user/repos?visibility=public&affiliation=owner&sort=updated"
     else:
         repos_url = f"https://api.github.com/users/{username}/repos?type=owner&sort=updated"
     projects = []
